@@ -124,7 +124,6 @@ export default function CustomizationPage() {
   return (
     <div className="min-h-screen bg-black">
       <Header />
-
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6 lg:px-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -155,7 +154,6 @@ export default function CustomizationPage() {
           </motion.div>
         </div>
       </section>
-
       {/* Customization Options */}
       <section className="py-16 px-6 lg:px-20">
         <div className="max-w-[120rem] mx-auto">
@@ -176,10 +174,6 @@ export default function CustomizationPage() {
 
           {Object.entries(optionsByType).map(([type, typeOptions], typeIndex) => (
             <div key={type} className="mb-12">
-              <h3 className="text-2xl font-heading font-semibold text-white mb-6 flex items-center">
-                <Palette className="text-primary mr-3" size={24} />
-                {type}
-              </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {typeOptions.map((option, index) => (
@@ -260,7 +254,6 @@ export default function CustomizationPage() {
           )}
         </div>
       </section>
-
       {/* Request Form */}
       <section className="py-16 px-6 lg:px-20 bg-gradient-to-b from-black to-black/95">
         <div className="max-w-4xl mx-auto">
@@ -429,7 +422,6 @@ export default function CustomizationPage() {
           </motion.div>
         </div>
       </section>
-
       <Footer />
     </div>
   );
