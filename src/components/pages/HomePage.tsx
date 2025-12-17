@@ -213,24 +213,31 @@ export default function HomePage() {
 
           {/* Scrolling Content */}
           <div className="lg:col-span-8 space-y-32 pt-12 lg:pt-0">
-            {features.map((feature, index) => (
-              <AnimatedReveal key={index} className="group relative">
-                <div className="absolute -left-8 top-0 bottom-0 w-[1px] bg-white/10 group-hover:bg-primary/50 transition-colors duration-500" />
-                <div className="relative overflow-hidden rounded-2xl aspect-[16/9] mb-8 border border-white/10 group-hover:border-primary/30 transition-colors">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
-                  <Image
-                    src={'https://static.wixstatic.com/media/04c535_4b8d4d115040417ab122a1c21ca72505~mv2.png?originWidth=1280&originHeight=704'}
-                    alt={feature.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute bottom-0 left-0 p-8 z-20">
-                    <feature.icon className="w-12 h-12 text-primary mb-4" />
-                    <h3 className="text-3xl font-heading font-bold text-white mb-2">{feature.title}</h3>
-                    <p className="font-paragraph text-secondary/80 max-w-lg">{feature.description}</p>
+            {features.map((feature, index) => {
+              const featureImages = [
+                'https://static.wixstatic.com/media/04c535_a948e600af30481999ba86515d73e75c~mv2.png?originWidth=896&originHeight=448',
+                'https://static.wixstatic.com/media/04c535_a6304e7ea1ee415483debc80c589fbf7~mv2.png?originWidth=896&originHeight=448',
+                'https://static.wixstatic.com/media/04c535_963d0b77a899476d80bf856ad24c7bb0~mv2.png?originWidth=896&originHeight=448'
+              ];
+              return (
+                <AnimatedReveal key={index} className="group relative">
+                  <div className="absolute -left-8 top-0 bottom-0 w-[1px] bg-white/10 group-hover:bg-primary/50 transition-colors duration-500" />
+                  <div className="relative overflow-hidden rounded-2xl aspect-[16/9] mb-8 border border-white/10 group-hover:border-primary/30 transition-colors">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
+                    <Image
+                      src={featureImages[index]}
+                      alt={feature.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute bottom-0 left-0 p-8 z-20">
+                      <feature.icon className="w-12 h-12 text-primary mb-4" />
+                      <h3 className="text-3xl font-heading font-bold text-white mb-2">{feature.title}</h3>
+                      <p className="font-paragraph text-secondary/80 max-w-lg">{feature.description}</p>
+                    </div>
                   </div>
-                </div>
-              </AnimatedReveal>
-            ))}
+                </AnimatedReveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -259,7 +266,7 @@ export default function HomePage() {
             <div className="md:col-span-8 row-span-1 md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10">
               <Link to="/categories" className="block w-full h-full">
                 <Image
-                  src={'https://static.wixstatic.com/media/04c535_4d00ab18300c4c5d92cef3c7f09e5b4d~mv2.png?originWidth=1152&originHeight=768'}
+                  src={'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=best-premium-car'}
                   alt={categories[0].title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -272,24 +279,32 @@ export default function HomePage() {
             </div>
 
             {/* Secondary Items */}
-            {categories.slice(1).map((category, idx) => (
-              <div key={category.slug} className={`md:col-span-4 relative group overflow-hidden rounded-xl border border-white/10 ${idx === 2 ? 'md:col-span-4' : ''}`}>
-                <Link to="/categories" className="block w-full h-full">
-                  <Image
-                    src={'https://static.wixstatic.com/media/04c535_c2e64d30eeaf4845b2073fb6e952f5e5~mv2.png?originWidth=1152&originHeight=768'}
-                    alt={category.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors" />
-                  <div className="absolute inset-0 flex flex-col justify-end p-8">
-                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-2xl font-heading font-bold text-white mb-2">{category.title}</h3>
-                      <div className="h-[1px] w-0 group-hover:w-full bg-primary transition-all duration-500" />
+            {categories.slice(1).map((category, idx) => {
+              const categoryImages = [
+                'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=luxury-car-featured',
+                'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=branded-sports-cars',
+                'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=defender-4x4-vehicle',
+                'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=monster-trucks'
+              ];
+              return (
+                <div key={category.slug} className={`md:col-span-4 relative group overflow-hidden rounded-xl border border-white/10 ${idx === 2 ? 'md:col-span-4' : ''}`}>
+                  <Link to="/categories" className="block w-full h-full">
+                    <Image
+                      src={categoryImages[idx]}
+                      alt={category.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors" />
+                    <div className="absolute inset-0 flex flex-col justify-end p-8">
+                      <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 className="text-2xl font-heading font-bold text-white mb-2">{category.title}</h3>
+                        <div className="h-[1px] w-0 group-hover:w-full bg-primary transition-all duration-500" />
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
