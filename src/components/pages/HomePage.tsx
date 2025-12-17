@@ -266,7 +266,7 @@ export default function HomePage() {
             <div className="md:col-span-8 row-span-1 md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10">
               <Link to="/categories" className="block w-full h-full">
                 <Image
-                  src={'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=best-premium-car'}
+                  src={'https://static.wixstatic.com/media/04c535_3e460bb9eb0842fdba4b1323158e697f~mv2.png?originWidth=1152&originHeight=768'}
                   alt={categories[0].title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -281,10 +281,10 @@ export default function HomePage() {
             {/* Secondary Items */}
             {categories.slice(1).map((category, idx) => {
               const categoryImages = [
-                'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=luxury-car-featured',
-                'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=branded-sports-cars',
-                'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=defender-4x4-vehicle',
-                'https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=monster-trucks'
+                'https://static.wixstatic.com/media/04c535_73aa591ed3284e138f65029b4320cfb6~mv2.png?originWidth=1152&originHeight=768',
+                'https://static.wixstatic.com/media/04c535_3598601e9d4b4b119aa5367b64a56c7f~mv2.png?originWidth=1152&originHeight=768',
+                'https://static.wixstatic.com/media/04c535_6fd23c04e6674bcb8fcb17d55bb54557~mv2.png?originWidth=1152&originHeight=768',
+                'https://static.wixstatic.com/media/04c535_de8c24aaaedc414087d8e4a79f02133a~mv2.png?originWidth=1152&originHeight=768'
               ];
               return (
                 <div key={category.slug} className={`md:col-span-4 relative group overflow-hidden rounded-xl border border-white/10 ${idx === 2 ? 'md:col-span-4' : ''}`}>
