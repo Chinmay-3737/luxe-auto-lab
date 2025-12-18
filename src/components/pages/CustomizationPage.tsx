@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Palette, Check, Sparkles } from 'lucide-react';
+import { Check, Sparkles, RotateCw } from 'lucide-react';
 import Header from '../Header';
 import Footer from '../Footer';
 import { Image } from '@/components/ui/image';
@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import * as THREE from 'three';
 
 export default function CustomizationPage() {
   const [options, setOptions] = useState<CustomizationOptions[]>([]);
@@ -18,6 +19,11 @@ export default function CustomizationPage() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [requestSubmitted, setRequestSubmitted] = useState(false);
   const { toast } = useToast();
+  const mountRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const carRef = useRef<THREE.Group | null>(null);
+  const rotationSpeedRef = useRef(0.005);
 
   const [formData, setFormData] = useState({
     customerName: '',
@@ -43,6 +49,174 @@ export default function CustomizationPage() {
 
     fetchOptions();
   }, []);
+
+  // Initialize 3D car scene
+  useEffect(() => {
+    if (!mountRef.current || loading) return;
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+    sceneRef.current = scene;
+
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      mountRef.current.clientWidth / mountRef.current.clientHeight,
+      0.1,
+      1000
+    );
+    camera.position.set(0, 1.5, 3);
+    camera.lookAt(0, 0.5, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    mountRef.current.appendChild(renderer.domElement);
+    rendererRef.current = renderer;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+
+    const pointLight = new THREE.PointLight(0xff0000, 0.5);
+    pointLight.position.set(-5, 2, 3);
+    scene.add(pointLight);
+
+    // Create 3D car model
+    const carGroup = new THREE.Group();
+    carRef.current = carGroup;
+
+    // Car body
+    const bodyGeometry = new THREE.BoxGeometry(2, 1, 4);
+    const bodyMaterial = new THREE.MeshStandardMaterial({
+      color: 0xff0000,
+      metalness: 0.7,
+      roughness: 0.2,
+    });
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+    body.position.y = 0.5;
+    body.castShadow = true;
+    carGroup.add(body);
+
+    // Car roof
+    const roofGeometry = new THREE.BoxGeometry(1.8, 0.8, 2);
+    const roofMaterial = new THREE.MeshStandardMaterial({
+      color: 0xcc0000,
+      metalness: 0.7,
+      roughness: 0.2,
+    });
+    const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+    roof.position.y = 1.3;
+    roof.position.z = -0.3;
+    roof.castShadow = true;
+    carGroup.add(roof);
+
+    // Windows
+    const windowGeometry = new THREE.BoxGeometry(0.8, 0.6, 1.2);
+    const windowMaterial = new THREE.MeshStandardMaterial({
+      color: 0x1a1a1a,
+      metalness: 0.3,
+      roughness: 0.1,
+      transparent: true,
+      opacity: 0.6,
+    });
+    const frontWindow = new THREE.Mesh(windowGeometry, windowMaterial);
+    frontWindow.position.set(0, 1.2, 0.8);
+    carGroup.add(frontWindow);
+
+    const rearWindow = new THREE.Mesh(windowGeometry, windowMaterial);
+    rearWindow.position.set(0, 1.2, -0.8);
+    carGroup.add(rearWindow);
+
+    // Wheels
+    const wheelGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.3, 32);
+    const wheelMaterial = new THREE.MeshStandardMaterial({
+      color: 0x222222,
+      metalness: 0.5,
+      roughness: 0.4,
+    });
+
+    const wheels = [
+      { x: -0.8, z: 1 },
+      { x: 0.8, z: 1 },
+      { x: -0.8, z: -1 },
+      { x: 0.8, z: -1 },
+    ];
+
+    wheels.forEach(({ x, z }) => {
+      const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+      wheel.rotation.z = Math.PI / 2;
+      wheel.position.set(x, 0.4, z);
+      wheel.castShadow = true;
+      carGroup.add(wheel);
+    });
+
+    // Headlights
+    const headlightGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+    const headlightMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffff00,
+      emissive: 0xffff00,
+      emissiveIntensity: 0.5,
+    });
+    const leftHeadlight = new THREE.Mesh(headlightGeometry, headlightMaterial);
+    leftHeadlight.position.set(-0.5, 0.6, 2);
+    carGroup.add(leftHeadlight);
+
+    const rightHeadlight = new THREE.Mesh(headlightGeometry, headlightMaterial);
+    rightHeadlight.position.set(0.5, 0.6, 2);
+    carGroup.add(rightHeadlight);
+
+    scene.add(carGroup);
+
+    // Ground plane
+    const groundGeometry = new THREE.PlaneGeometry(10, 10);
+    const groundMaterial = new THREE.MeshStandardMaterial({
+      color: 0x1a1a1a,
+      metalness: 0.1,
+      roughness: 0.8,
+    });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = 0;
+    scene.add(ground);
+
+    // Animation loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      if (carRef.current) {
+        carRef.current.rotation.y += rotationSpeedRef.current;
+      }
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Handle window resize
+    const handleResize = () => {
+      if (!mountRef.current) return;
+      const width = mountRef.current.clientWidth;
+      const height = mountRef.current.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (mountRef.current && renderer.domElement.parentNode === mountRef.current) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, [loading]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -154,83 +328,45 @@ export default function CustomizationPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* 3D Car Model Section */}
+      <section className="py-16 px-6 lg:px-20">
+        <div className="max-w-[120rem] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
+              3D Car Customization
+            </h2>
+            <p className="font-paragraph text-lg text-secondary/70">
+              Explore our premium car model in interactive 3D
+            </p>
+          </motion.div>
+
+          {/* 3D Car Model */}
+          <div className="relative h-96 mb-16 rounded-xl overflow-hidden border border-primary/20 bg-black">
+            <div ref={mountRef} className="w-full h-full" />
+            <div className="absolute bottom-4 right-4 flex gap-2">
+              <button
+                onClick={() => {
+                  rotationSpeedRef.current = rotationSpeedRef.current === 0 ? 0.005 : 0;
+                }}
+                className="bg-primary/80 hover:bg-primary text-white p-2 rounded-lg transition-colors"
+                title="Toggle rotation"
+              >
+                <RotateCw size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Customization Options */}
       <section className="py-16 px-6 lg:px-20">
-        {/* Animated Car with Red Stroke */}
-        <div className="relative h-40 mb-16 overflow-hidden rounded-xl bg-gradient-to-r from-black via-black/50 to-black border border-primary/20">
-          <motion.div
-            animate={{ x: ['0%', '100%'] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
-            className="absolute top-1/2 -translate-y-1/2 left-0"
-          >
-            <svg
-              width="150"
-              height="100"
-              viewBox="0 0 150 100"
-              className="drop-shadow-lg"
-            >
-              {/* Car body with red stroke */}
-              <g>
-                {/* Main car body */}
-                <path
-                  d="M 25 65 L 40 40 L 110 40 L 125 65 Z"
-                  fill="none"
-                  stroke="#FF0000"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Car roof */}
-                <path
-                  d="M 45 40 L 65 20 L 105 20 L 120 40"
-                  fill="none"
-                  stroke="#FF0000"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Front wheel */}
-                <circle
-                  cx="40"
-                  cy="72"
-                  r="10"
-                  fill="none"
-                  stroke="#FF0000"
-                  strokeWidth="2.5"
-                />
-                {/* Rear wheel */}
-                <circle
-                  cx="110"
-                  cy="72"
-                  r="10"
-                  fill="none"
-                  stroke="#FF0000"
-                  strokeWidth="2.5"
-                />
-                {/* Window */}
-                <rect
-                  x="55"
-                  y="28"
-                  width="40"
-                  height="15"
-                  fill="none"
-                  stroke="#FF0000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Headlight */}
-                <circle
-                  cx="30"
-                  cy="60"
-                  r="3"
-                  fill="#FF0000"
-                />
-              </g>
-            </svg>
-          </motion.div>
-        </div>
-
         <div className="max-w-[120rem] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -249,7 +385,6 @@ export default function CustomizationPage() {
 
           {Object.entries(optionsByType).map(([type, typeOptions], typeIndex) => (
             <div key={type} className="mb-12">
-
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {typeOptions.map((option, index) => (
                   <motion.div
@@ -329,6 +464,7 @@ export default function CustomizationPage() {
           )}
         </div>
       </section>
+
       {/* Request Form */}
       <section className="py-16 px-6 lg:px-20 bg-gradient-to-b from-black to-black/95">
         <div className="max-w-4xl mx-auto">
