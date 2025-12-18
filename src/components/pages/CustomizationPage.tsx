@@ -156,6 +156,81 @@ export default function CustomizationPage() {
       </section>
       {/* Customization Options */}
       <section className="py-16 px-6 lg:px-20">
+        {/* Animated Car with Red Stroke */}
+        <div className="relative h-40 mb-16 overflow-hidden rounded-xl bg-gradient-to-r from-black via-black/50 to-black border border-primary/20">
+          <motion.div
+            animate={{ x: ['0%', '100%'] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+            className="absolute top-1/2 -translate-y-1/2 left-0"
+          >
+            <svg
+              width="150"
+              height="100"
+              viewBox="0 0 150 100"
+              className="drop-shadow-lg"
+            >
+              {/* Car body with red stroke */}
+              <g>
+                {/* Main car body */}
+                <path
+                  d="M 25 65 L 40 40 L 110 40 L 125 65 Z"
+                  fill="none"
+                  stroke="#FF0000"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Car roof */}
+                <path
+                  d="M 45 40 L 65 20 L 105 20 L 120 40"
+                  fill="none"
+                  stroke="#FF0000"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Front wheel */}
+                <circle
+                  cx="40"
+                  cy="72"
+                  r="10"
+                  fill="none"
+                  stroke="#FF0000"
+                  strokeWidth="2.5"
+                />
+                {/* Rear wheel */}
+                <circle
+                  cx="110"
+                  cy="72"
+                  r="10"
+                  fill="none"
+                  stroke="#FF0000"
+                  strokeWidth="2.5"
+                />
+                {/* Window */}
+                <rect
+                  x="55"
+                  y="28"
+                  width="40"
+                  height="15"
+                  fill="none"
+                  stroke="#FF0000"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Headlight */}
+                <circle
+                  cx="30"
+                  cy="60"
+                  r="3"
+                  fill="#FF0000"
+                />
+              </g>
+            </svg>
+          </motion.div>
+        </div>
+
         <div className="max-w-[120rem] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
