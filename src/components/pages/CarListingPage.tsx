@@ -127,8 +127,8 @@ export default function CarListingPage() {
         </div>
       </section>
 
-      {/* Monster Trucks Featured Section - Only show if not already on monster trucks page */}
-      {slug !== 'monster-trucks' && monsterTruckCars.length > 0 && (
+      {/* Monster Trucks Featured Section */}
+      {monsterTruckCars.length > 0 && (
         <section className="py-16 px-6 lg:px-20">
           <div className="max-w-[120rem] mx-auto">
             <motion.div
