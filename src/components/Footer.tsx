@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="text-2xl font-heading font-bold text-white mb-4">
-              ELITE<span className="text-primary">DRIVE</span>
+              VYRONEX<span className="text-primary">MOTOR</span>
             </div>
             <p className="font-paragraph text-sm text-secondary/70 leading-relaxed">
               Premium luxury vehicles and expert customization services for the discerning driver.
@@ -95,7 +95,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-white/10">
           <p className="font-paragraph text-sm text-secondary/50 text-center">
-            © {new Date().getFullYear()} EliteDrive. All rights reserved. Crafted for luxury.
+            © {new Date().getFullYear()} VyronexMotor. All rights reserved. Crafted for luxury.
           </p>
         </div>
       </div>

@@ -30,7 +30,7 @@ export default function Header() {
               animate={{ opacity: 1, x: 0 }}
               className="text-2xl font-heading font-bold text-white"
             >
-              ELITE<span className="text-primary">DRIVE</span>
+              VYRONEX<span className="text-primary">MOTOR</span>
             </motion.div>
           </Link>
 
