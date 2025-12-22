@@ -255,6 +255,96 @@ export default function CustomizationPage() {
         </div>
       </section>
 
+      {/* Alloys Section */}
+      <section className="py-16 px-6 lg:px-20 bg-gradient-to-b from-black/50 to-black">
+        <div className="max-w-[120rem] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
+              Premium Alloy Wheels
+            </h2>
+            <p className="font-paragraph text-lg text-secondary/70">
+              Elevate your vehicle's appearance with our exclusive alloy wheel collection
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Matte Finish Alloys',
+                description: 'Sophisticated matte black finish with premium durability',
+                finish: 'Matte Black',
+                price: '+$2,500',
+                color: '#1a1a1a'
+              },
+              {
+                name: 'High-Performance Alloys',
+                description: 'Lightweight forged alloys for enhanced performance',
+                finish: 'Polished Chrome',
+                price: '+$4,200',
+                color: '#c0c0c0'
+              },
+              {
+                name: 'Budget-Friendly Alloys',
+                description: 'Quality alloy wheels at an affordable price point',
+                finish: 'Gunmetal Gray',
+                price: '+$1,200',
+                color: '#808080'
+              }
+            ].map((alloy, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => toggleOption(`alloy-${index}`)}
+                className={`relative bg-white/5 backdrop-blur-sm rounded-xl p-6 border cursor-pointer transition-all ${
+                  selectedOptions.includes(`alloy-${index}`)
+                    ? 'border-primary bg-primary/5'
+                    : 'border-white/10 hover:border-white/30'
+                }`}
+              >
+                {/* Selection Indicator */}
+                {selectedOptions.includes(`alloy-${index}`) && (
+                  <div className="absolute top-4 right-4 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                    <Check size={16} className="text-white" />
+                  </div>
+                )}
+
+                {/* Wheel Preview */}
+                <div className="mb-4 h-40 rounded-lg overflow-hidden bg-black/50 flex items-center justify-center border border-white/10">
+                  <div className="relative w-32 h-32 rounded-full border-8 flex items-center justify-center" style={{ borderColor: alloy.color }}>
+                    <div className="absolute inset-0 rounded-full border-4 border-white/20" style={{ borderColor: alloy.color }} />
+                    <div className="w-16 h-16 rounded-full bg-black border-4" style={{ borderColor: alloy.color }} />
+                  </div>
+                </div>
+
+                <h4 className="text-xl font-heading font-semibold text-white mb-2">
+                  {alloy.name}
+                </h4>
+                <p className="font-paragraph text-sm text-secondary/70 mb-3">
+                  {alloy.description}
+                </p>
+
+                <p className="font-paragraph text-xs text-secondary/50 mb-2">
+                  Finish: {alloy.finish}
+                </p>
+
+                <p className="font-paragraph text-sm text-primary font-semibold">
+                  {alloy.price}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Request Form */}
       <section className="py-16 px-6 lg:px-20 bg-gradient-to-b from-black to-black/95">
         <div className="max-w-4xl mx-auto">

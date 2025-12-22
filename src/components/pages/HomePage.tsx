@@ -122,6 +122,22 @@ export default function HomePage() {
         .clip-diagonal {
           clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
         }
+        @keyframes gradient-shift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        .animated-gradient-bg {
+          background: linear-gradient(-45deg, #000000, #1a0000, #000000, #1a0000);
+          background-size: 400% 400%;
+          animation: gradient-shift 15s ease infinite;
+        }
       `}</style>
 
       <Header />
@@ -305,6 +321,45 @@ export default function HomePage() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* WHERE THE REAL MAGIC HAPPENS */}
+      <section className="relative py-32 px-6 bg-black overflow-hidden">
+        <div className="max-w-[120rem] mx-auto">
+          <AnimatedReveal className="text-center mb-16">
+            <h2 className="text-5xl md:text-7xl font-heading font-bold text-white mb-4">
+              Where <span className="text-primary">The Real Magic</span> Happens
+            </h2>
+            <p className="font-paragraph text-lg text-secondary/70 max-w-2xl mx-auto">
+              Our comprehensive suite of services transforms your automotive dreams into reality
+            </p>
+          </AnimatedReveal>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {[
+              { icon: '🎨', label: 'Ceramic Coating', desc: 'Premium protection' },
+              { icon: '✨', label: 'Clarity Coat', desc: 'Crystal clear finish' },
+              { icon: '🛡️', label: 'Paint Protection Film', desc: 'Scratch resistant' },
+              { icon: '🚗', label: 'Car Denting Painting', desc: 'Expert restoration' },
+              { icon: '🧼', label: 'Car Wash', desc: 'Deep clean service' },
+              { icon: '🪟', label: 'Glass Film', desc: 'UV protection' }
+            ].map((service, index) => (
+              <AnimatedReveal key={index} delay={index * 0.05}>
+                <div className="flex flex-col items-center text-center p-6 rounded-xl border border-white/10 hover:border-primary/50 transition-all duration-300 group hover:bg-white/5 backdrop-blur-sm">
+                  <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">
+                    {service.icon}
+                  </div>
+                  <h3 className="font-heading font-semibold text-white text-sm mb-1">
+                    {service.label}
+                  </h3>
+                  <p className="font-paragraph text-xs text-secondary/50">
+                    {service.desc}
+                  </p>
+                </div>
+              </AnimatedReveal>
+            ))}
           </div>
         </div>
       </section>
