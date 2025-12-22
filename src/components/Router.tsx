@@ -8,11 +8,13 @@ import CarListingPage from '@/components/pages/CarListingPage';
 import CarDetailPage from '@/components/pages/CarDetailPage';
 import CustomizationPage from '@/components/pages/CustomizationPage';
 import ContactPage from '@/components/pages/ContactPage';
+import SplashScreen from '@/components/SplashScreen';
 
 // Layout component that includes ScrollToTop
 function Layout() {
   return (
     <>
+      <SplashScreen />
       <ScrollToTop />
       <Outlet />
     </>
