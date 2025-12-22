@@ -255,7 +255,7 @@ export default function CustomizationPage() {
         </div>
       </section>
 
-      {/* Alloys Section */}
+      {/* Alloys Section - Quick Selection */}
       <section className="py-16 px-6 lg:px-20 bg-gradient-to-b from-black/50 to-black">
         <div className="max-w-[120rem] mx-auto">
           <motion.div
@@ -280,21 +280,21 @@ export default function CustomizationPage() {
                 description: 'Sophisticated matte black finish with premium durability',
                 finish: 'Matte Black',
                 price: '+$2,500',
-                color: '#1a1a1a'
+                image: 'https://static.wixstatic.com/media/04c535_a948e600af30481999ba86515d73e75c~mv2.png?originWidth=896&originHeight=448'
               },
               {
                 name: 'High-Performance Alloys',
                 description: 'Lightweight forged alloys for enhanced performance',
                 finish: 'Polished Chrome',
                 price: '+$4,200',
-                color: '#c0c0c0'
+                image: 'https://static.wixstatic.com/media/04c535_a6304e7ea1ee415483debc80c589fbf7~mv2.png?originWidth=896&originHeight=448'
               },
               {
                 name: 'Budget-Friendly Alloys',
                 description: 'Quality alloy wheels at an affordable price point',
                 finish: 'Gunmetal Gray',
                 price: '+$1,200',
-                color: '#808080'
+                image: 'https://static.wixstatic.com/media/04c535_963d0b77a899476d80bf856ad24c7bb0~mv2.png?originWidth=896&originHeight=448'
               }
             ].map((alloy, index) => (
               <motion.div
@@ -304,7 +304,7 @@ export default function CustomizationPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 onClick={() => toggleOption(`alloy-${index}`)}
-                className={`relative bg-white/5 backdrop-blur-sm rounded-xl p-6 border cursor-pointer transition-all ${
+                className={`relative bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border cursor-pointer transition-all ${
                   selectedOptions.includes(`alloy-${index}`)
                     ? 'border-primary bg-primary/5'
                     : 'border-white/10 hover:border-white/30'
@@ -312,36 +312,181 @@ export default function CustomizationPage() {
               >
                 {/* Selection Indicator */}
                 {selectedOptions.includes(`alloy-${index}`) && (
-                  <div className="absolute top-4 right-4 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                  <div className="absolute top-4 right-4 w-6 h-6 bg-primary rounded-full flex items-center justify-center z-10">
                     <Check size={16} className="text-white" />
                   </div>
                 )}
 
-                {/* Wheel Preview */}
-                <div className="mb-4 h-40 rounded-lg overflow-hidden bg-black/50 flex items-center justify-center border border-white/10">
-                  <div className="relative w-32 h-32 rounded-full border-8 flex items-center justify-center" style={{ borderColor: alloy.color }}>
-                    <div className="absolute inset-0 rounded-full border-4 border-white/20" style={{ borderColor: alloy.color }} />
-                    <div className="w-16 h-16 rounded-full bg-black border-4" style={{ borderColor: alloy.color }} />
-                  </div>
+                {/* Image */}
+                <div className="h-40 overflow-hidden bg-black/50">
+                  <Image
+                    src={alloy.image}
+                    alt={alloy.name}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  />
                 </div>
 
-                <h4 className="text-xl font-heading font-semibold text-white mb-2">
-                  {alloy.name}
-                </h4>
-                <p className="font-paragraph text-sm text-secondary/70 mb-3">
-                  {alloy.description}
-                </p>
+                <div className="p-6">
+                  <h4 className="text-xl font-heading font-semibold text-white mb-2">
+                    {alloy.name}
+                  </h4>
+                  <p className="font-paragraph text-sm text-secondary/70 mb-3">
+                    {alloy.description}
+                  </p>
 
-                <p className="font-paragraph text-xs text-secondary/50 mb-2">
-                  Finish: {alloy.finish}
-                </p>
+                  <p className="font-paragraph text-xs text-secondary/50 mb-2">
+                    Finish: {alloy.finish}
+                  </p>
 
-                <p className="font-paragraph text-sm text-primary font-semibold">
-                  {alloy.price}
-                </p>
+                  <p className="font-paragraph text-sm text-primary font-semibold">
+                    {alloy.price}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Alloy Wheels Gallery - Comprehensive Showcase */}
+      <section className="py-20 px-6 lg:px-20 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
+          backgroundImage: 'radial-gradient(circle at 20% 50%, #FF0000, transparent 50%)',
+        }} />
+
+        <div className="max-w-[120rem] mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-6xl font-heading font-bold text-white mb-4">
+              Complete <span className="text-primary">Alloy Collection</span>
+            </h2>
+            <p className="font-paragraph text-lg text-secondary/70 max-w-2xl mx-auto">
+              Explore our full range of premium alloy wheels, each designed to enhance your vehicle's performance and aesthetics
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                name: 'Classic Black',
+                specs: '18" | 5x120 | 9.5J',
+                image: 'https://static.wixstatic.com/media/04c535_73aa591ed3284e138f65029b4320cfb6~mv2.png?originWidth=1152&originHeight=768',
+                price: '+$1,800'
+              },
+              {
+                name: 'Sport Chrome',
+                specs: '19" | 5x120 | 10J',
+                image: 'https://static.wixstatic.com/media/04c535_3598601e9d4b4b119aa5367b64a56c7f~mv2.png?originWidth=1152&originHeight=768',
+                price: '+$2,200'
+              },
+              {
+                name: 'Racing Red',
+                specs: '20" | 5x120 | 10.5J',
+                image: 'https://static.wixstatic.com/media/04c535_6fd23c04e6674bcb8fcb17d55bb54557~mv2.png?originWidth=1152&originHeight=768',
+                price: '+$3,500'
+              },
+              {
+                name: 'Titanium Gray',
+                specs: '19" | 5x120 | 9.5J',
+                image: 'https://static.wixstatic.com/media/04c535_de8c24aaaedc414087d8e4a79f02133a~mv2.png?originWidth=1152&originHeight=768',
+                price: '+$2,100'
+              },
+              {
+                name: 'Pearl White',
+                specs: '18" | 5x120 | 9J',
+                image: 'https://static.wixstatic.com/media/04c535_a948e600af30481999ba86515d73e75c~mv2.png?originWidth=896&originHeight=448',
+                price: '+$1,950'
+              },
+              {
+                name: 'Gunmetal Pro',
+                specs: '20" | 5x120 | 10J',
+                image: 'https://static.wixstatic.com/media/04c535_a6304e7ea1ee415483debc80c589fbf7~mv2.png?originWidth=896&originHeight=448',
+                price: '+$2,800'
+              },
+              {
+                name: 'Matte Black Pro',
+                specs: '21" | 5x120 | 11J',
+                image: 'https://static.wixstatic.com/media/04c535_963d0b77a899476d80bf856ad24c7bb0~mv2.png?originWidth=896&originHeight=448',
+                price: '+$4,500'
+              },
+              {
+                name: 'Carbon Fiber',
+                specs: '20" | 5x120 | 10.5J',
+                image: 'https://static.wixstatic.com/media/04c535_b4e79ab9c667433988738eb88367d2fe~mv2.png?originWidth=1920&originHeight=1024',
+                price: '+$5,200'
+              }
+            ].map((wheel, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className="group relative bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300 hover:bg-white/10"
+              >
+                {/* Image Container */}
+                <div className="relative h-48 overflow-hidden bg-black/50">
+                  <Image
+                    src={wheel.image}
+                    alt={wheel.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                </div>
+
+                {/* Content */}
+                <div className="p-5">
+                  <h3 className="text-lg font-heading font-semibold text-white mb-2 group-hover:text-primary transition-colors">
+                    {wheel.name}
+                  </h3>
+                  <p className="font-paragraph text-xs text-secondary/60 mb-3 tracking-wider">
+                    {wheel.specs}
+                  </p>
+                  <p className="font-paragraph text-sm text-primary font-semibold">
+                    {wheel.price}
+                  </p>
+                </div>
+
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Gallery Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-16 bg-gradient-to-r from-primary/10 to-transparent rounded-xl p-8 border border-primary/20"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h4 className="text-lg font-heading font-semibold text-white mb-2">Premium Quality</h4>
+                <p className="font-paragraph text-sm text-secondary/70">
+                  All alloys are manufactured using high-grade materials and precision engineering for durability and performance.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-lg font-heading font-semibold text-white mb-2">Custom Fitment</h4>
+                <p className="font-paragraph text-sm text-secondary/70">
+                  Available in multiple sizes and bolt patterns to fit virtually any vehicle. Custom offsets available upon request.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-lg font-heading font-semibold text-white mb-2">Expert Installation</h4>
+                <p className="font-paragraph text-sm text-secondary/70">
+                  Professional installation and wheel balancing included with every purchase. Lifetime warranty on defects.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
