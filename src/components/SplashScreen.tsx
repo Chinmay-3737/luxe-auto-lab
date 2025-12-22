@@ -24,6 +24,7 @@ export default function SplashScreen() {
       <div className="flex flex-col items-center justify-center">
         {/* Vyronex Motors Text */}
         <motion.h1
+<<<<<<< HEAD
   className="font-heading text-6xl font-bold text-white mb-6"
   initial={{ opacity: 0, scale: 0.8 }}
   animate={{ opacity: 1, scale: 1 }}
@@ -32,12 +33,25 @@ export default function SplashScreen() {
   Vyronex <span className="text-primary">Motors</span>
 </motion.h1>
 
+=======
+          className="font-heading text-6xl font-bold text-white mb-6"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+          Vyronex Motors
+        </motion.h1>
+>>>>>>> f3500cf0660e70cb4ca5888f83e99d32e6e8325c
 
         {/* Red Line */}
         <motion.div
           className="h-1 bg-primary mb-8"
           initial={{ width: 0 }}
+<<<<<<< HEAD
           animate={{ width: 450 }}
+=======
+          animate={{ width: 200 }}
+>>>>>>> f3500cf0660e70cb4ca5888f83e99d32e6e8325c
           transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
         />
 
