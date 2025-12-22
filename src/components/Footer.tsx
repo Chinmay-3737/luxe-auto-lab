@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="text-2xl font-heading font-bold text-white mb-4">
-              VYRONEX<span className="text-primary">MOTOR</span>
+              VYRONEX<span className="text-primary">MOTORS</span>
             </div>
             <p className="font-paragraph text-sm text-secondary/70 leading-relaxed">
               Premium luxury vehicles and expert customization services for the discerning driver.
@@ -48,7 +48,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start space-x-3">
                 <Mail size={16} className="text-primary mt-1 flex-shrink-0" />
-                <span className="font-paragraph text-sm text-secondary/70">info@vyronexMotor.com</span>
+                <span className="font-paragraph text-sm text-secondary/70">info@vyronexMotors.com</span>
               </li>
               <li className="flex items-start space-x-3">
                 <MapPin size={16} className="text-primary mt-1 flex-shrink-0" />
@@ -95,7 +95,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-white/10">
           <p className="font-paragraph text-sm text-secondary/50 text-center">
-            © {new Date().getFullYear()} VyronexMotor. All rights reserved. Crafted for luxury.
+            © {new Date().getFullYear()} VyronexMotors. All rights reserved. Crafted for luxury.
           </p>
         </div>
       </div>

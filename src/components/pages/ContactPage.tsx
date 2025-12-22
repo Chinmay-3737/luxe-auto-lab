@@ -13,7 +13,7 @@ export default function ContactPage() {
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@vyronexMotor.com', 'sales@vyronexMotor.com'],
+      details: ['info@vyronexMotors.com', 'sales@vyronexMotors.com'],
     },
     {
       icon: MapPin,

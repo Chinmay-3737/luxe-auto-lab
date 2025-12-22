@@ -30,7 +30,7 @@ export default function Header() {
               animate={{ opacity: 1, x: 0 }}
               className="text-2xl font-heading font-bold text-white"
             >
-              VYRONEX<span className="text-primary">MOTOR</span>
+              VYRONEX<span className="text-primary">MOTORS</span>
             </motion.div>
           </Link>
 
