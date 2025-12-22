@@ -8,17 +8,17 @@ export default function ContactPage() {
     {
       icon: Phone,
       title: 'Phone',
-      details: ['+1 (555) 123-4567', '+1 (555) 987-6543'],
+      details: ['"+91 8766476895"', '"+91 8766476895"'],
     },
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@elitedrive.com', 'sales@elitedrive.com'],
+      details: ['info@vyronexMotor.com', 'sales@vyronexMotor.com'],
     },
     {
       icon: MapPin,
       title: 'Address',
-      details: ['123 Luxury Lane', 'Beverly Hills, CA 90210'],
+      details: ['Pune, Maharashtra', 'India'],
     },
     {
       icon: Clock,
@@ -97,7 +97,7 @@ export default function ContactPage() {
               <div className="text-center">
                 <MapPin className="text-primary mx-auto mb-4" size={48} />
                 <p className="font-paragraph text-lg text-secondary/70">
-                  123 Luxury Lane, Beverly Hills, CA 90210
+                  Pune, Maharashtra, India
                 </p>
               </div>
             </div>

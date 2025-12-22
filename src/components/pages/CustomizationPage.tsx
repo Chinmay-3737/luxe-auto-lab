@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Sparkles, RotateCw } from 'lucide-react';
+import { Check, Sparkles } from 'lucide-react';
 import Header from '../Header';
 import Footer from '../Footer';
 import { Image } from '@/components/ui/image';
@@ -11,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import * as THREE from 'three';
 
 export default function CustomizationPage() {
   const [options, setOptions] = useState<CustomizationOptions[]>([]);
@@ -19,11 +18,6 @@ export default function CustomizationPage() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [requestSubmitted, setRequestSubmitted] = useState(false);
   const { toast } = useToast();
-  const mountRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<THREE.Scene | null>(null);
-  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const carRef = useRef<THREE.Group | null>(null);
-  const rotationSpeedRef = useRef(0.005);
 
   const [formData, setFormData] = useState({
     customerName: '',
@@ -49,174 +43,6 @@ export default function CustomizationPage() {
 
     fetchOptions();
   }, []);
-
-  // Initialize 3D car scene
-  useEffect(() => {
-    if (!mountRef.current || loading) return;
-
-    // Scene setup
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
-    sceneRef.current = scene;
-
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      mountRef.current.clientWidth / mountRef.current.clientHeight,
-      0.1,
-      1000
-    );
-    camera.position.set(0, 1.5, 3);
-    camera.lookAt(0, 0.5, 0);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    mountRef.current.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
-
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
-
-    const pointLight = new THREE.PointLight(0xff0000, 0.5);
-    pointLight.position.set(-5, 2, 3);
-    scene.add(pointLight);
-
-    // Create 3D car model
-    const carGroup = new THREE.Group();
-    carRef.current = carGroup;
-
-    // Car body
-    const bodyGeometry = new THREE.BoxGeometry(2, 1, 4);
-    const bodyMaterial = new THREE.MeshStandardMaterial({
-      color: 0xff0000,
-      metalness: 0.7,
-      roughness: 0.2,
-    });
-    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-    body.position.y = 0.5;
-    body.castShadow = true;
-    carGroup.add(body);
-
-    // Car roof
-    const roofGeometry = new THREE.BoxGeometry(1.8, 0.8, 2);
-    const roofMaterial = new THREE.MeshStandardMaterial({
-      color: 0xcc0000,
-      metalness: 0.7,
-      roughness: 0.2,
-    });
-    const roof = new THREE.Mesh(roofGeometry, roofMaterial);
-    roof.position.y = 1.3;
-    roof.position.z = -0.3;
-    roof.castShadow = true;
-    carGroup.add(roof);
-
-    // Windows
-    const windowGeometry = new THREE.BoxGeometry(0.8, 0.6, 1.2);
-    const windowMaterial = new THREE.MeshStandardMaterial({
-      color: 0x1a1a1a,
-      metalness: 0.3,
-      roughness: 0.1,
-      transparent: true,
-      opacity: 0.6,
-    });
-    const frontWindow = new THREE.Mesh(windowGeometry, windowMaterial);
-    frontWindow.position.set(0, 1.2, 0.8);
-    carGroup.add(frontWindow);
-
-    const rearWindow = new THREE.Mesh(windowGeometry, windowMaterial);
-    rearWindow.position.set(0, 1.2, -0.8);
-    carGroup.add(rearWindow);
-
-    // Wheels
-    const wheelGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.3, 32);
-    const wheelMaterial = new THREE.MeshStandardMaterial({
-      color: 0x222222,
-      metalness: 0.5,
-      roughness: 0.4,
-    });
-
-    const wheels = [
-      { x: -0.8, z: 1 },
-      { x: 0.8, z: 1 },
-      { x: -0.8, z: -1 },
-      { x: 0.8, z: -1 },
-    ];
-
-    wheels.forEach(({ x, z }) => {
-      const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
-      wheel.rotation.z = Math.PI / 2;
-      wheel.position.set(x, 0.4, z);
-      wheel.castShadow = true;
-      carGroup.add(wheel);
-    });
-
-    // Headlights
-    const headlightGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-    const headlightMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffff00,
-      emissive: 0xffff00,
-      emissiveIntensity: 0.5,
-    });
-    const leftHeadlight = new THREE.Mesh(headlightGeometry, headlightMaterial);
-    leftHeadlight.position.set(-0.5, 0.6, 2);
-    carGroup.add(leftHeadlight);
-
-    const rightHeadlight = new THREE.Mesh(headlightGeometry, headlightMaterial);
-    rightHeadlight.position.set(0.5, 0.6, 2);
-    carGroup.add(rightHeadlight);
-
-    scene.add(carGroup);
-
-    // Ground plane
-    const groundGeometry = new THREE.PlaneGeometry(10, 10);
-    const groundMaterial = new THREE.MeshStandardMaterial({
-      color: 0x1a1a1a,
-      metalness: 0.1,
-      roughness: 0.8,
-    });
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = 0;
-    scene.add(ground);
-
-    // Animation loop
-    const animate = () => {
-      requestAnimationFrame(animate);
-
-      if (carRef.current) {
-        carRef.current.rotation.y += rotationSpeedRef.current;
-      }
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    // Handle window resize
-    const handleResize = () => {
-      if (!mountRef.current) return;
-      const width = mountRef.current.clientWidth;
-      const height = mountRef.current.clientHeight;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (mountRef.current && renderer.domElement.parentNode === mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
-      renderer.dispose();
-    };
-  }, [loading]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -329,42 +155,6 @@ export default function CustomizationPage() {
         </div>
       </section>
 
-      {/* 3D Car Model Section */}
-      <section className="py-16 px-6 lg:px-20">
-        <div className="max-w-[120rem] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-              3D Car Customization
-            </h2>
-            <p className="font-paragraph text-lg text-secondary/70">
-              Explore our premium car model in interactive 3D
-            </p>
-          </motion.div>
-
-          {/* 3D Car Model */}
-          <div className="relative h-96 mb-16 rounded-xl overflow-hidden border border-primary/20 bg-black">
-            <div ref={mountRef} className="w-full h-full" />
-            <div className="absolute bottom-4 right-4 flex gap-2">
-              <button
-                onClick={() => {
-                  rotationSpeedRef.current = rotationSpeedRef.current === 0 ? 0.005 : 0;
-                }}
-                className="bg-primary/80 hover:bg-primary text-white p-2 rounded-lg transition-colors"
-                title="Toggle rotation"
-              >
-                <RotateCw size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Customization Options */}
       <section className="py-16 px-6 lg:px-20">
         <div className="max-w-[120rem] mx-auto">
@@ -462,6 +252,241 @@ export default function CustomizationPage() {
               </p>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Alloys Section - Quick Selection */}
+      <section className="py-16 px-6 lg:px-20 bg-gradient-to-b from-black/50 to-black">
+        <div className="max-w-[120rem] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
+              Premium Alloy Wheels
+            </h2>
+            <p className="font-paragraph text-lg text-secondary/70">
+              Elevate your vehicle's appearance with our exclusive alloy wheel collection
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Matte Finish Alloys',
+                description: 'Sophisticated matte black finish with premium durability',
+                finish: 'Matte Black',
+                price: '+$2,500',
+                image: 'https://static.wixstatic.com/media/04c535_0492dea6ea6f41cab971ee324f1dceca~mv2.png?id=matte-finish-alloys'
+              },
+              {
+                name: 'High-Performance Alloys',
+                description: 'Lightweight forged alloys for enhanced performance',
+                finish: 'Polished Chrome',
+                price: '+$4,200',
+                image: 'https://static.wixstatic.com/media/04c535_55033865787744b8a41a10395cd771fb~mv2.png?id=high-performance-alloys'
+              },
+              {
+                name: 'Budget-Friendly Alloys',
+                description: 'Quality alloy wheels at an affordable price point',
+                finish: 'Gunmetal Gray',
+                price: '+$1,200',
+                image: 'https://static.wixstatic.com/media/04c535_ad16ce0303f0455baa35a425dd8c5a5c~mv2.png?id=budget-friendly-alloys'
+              }
+            ].map((alloy, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => toggleOption(`alloy-${index}`)}
+                className={`relative bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border cursor-pointer transition-all ${
+                  selectedOptions.includes(`alloy-${index}`)
+                    ? 'border-primary bg-primary/5'
+                    : 'border-white/10 hover:border-white/30'
+                }`}
+              >
+                {/* Selection Indicator */}
+                {selectedOptions.includes(`alloy-${index}`) && (
+                  <div className="absolute top-4 right-4 w-6 h-6 bg-primary rounded-full flex items-center justify-center z-10">
+                    <Check size={16} className="text-white" />
+                  </div>
+                )}
+
+                {/* Image */}
+                <div className="h-40 overflow-hidden bg-black/50">
+                  <Image
+                    src={alloy.image}
+                    alt={alloy.name}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  />
+                </div>
+
+                <div className="p-6">
+                  <h4 className="text-xl font-heading font-semibold text-white mb-2">
+                    {alloy.name}
+                  </h4>
+                  <p className="font-paragraph text-sm text-secondary/70 mb-3">
+                    {alloy.description}
+                  </p>
+
+                  <p className="font-paragraph text-xs text-secondary/50 mb-2">
+                    Finish: {alloy.finish}
+                  </p>
+
+                  <p className="font-paragraph text-sm text-primary font-semibold">
+                    {alloy.price}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Alloy Wheels Gallery - Comprehensive Showcase */}
+      <section className="py-20 px-6 lg:px-20 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
+          backgroundImage: 'radial-gradient(circle at 20% 50%, #FF0000, transparent 50%)',
+        }} />
+
+        <div className="max-w-[120rem] mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-6xl font-heading font-bold text-white mb-4">
+              Complete <span className="text-primary">Alloy Collection</span>
+            </h2>
+            <p className="font-paragraph text-lg text-secondary/70 max-w-2xl mx-auto">
+              Explore our full range of premium alloy wheels, each designed to enhance your vehicle's performance and aesthetics
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                name: 'Classic Black',
+                specs: '18" | 5x120 | 9.5J',
+                image: 'https://static.wixstatic.com/media/04c535_3ecca8667bd4421498168a50122a01d0~mv2.png?id=classic-black',
+                price: '+$1,800'
+              },
+              {
+                name: 'Sport Chrome',
+                specs: '19" | 5x120 | 10J',
+                image: 'https://static.wixstatic.com/media/04c535_fd1bebc0e4754186bf93e1a15edc4cbc~mv2.png?id=sport-chrome',
+                price: '+$2,200'
+              },
+              {
+                name: 'Racing Red',
+                specs: '20" | 5x120 | 10.5J',
+                image: 'https://static.wixstatic.com/media/04c535_38d6d2f2f3eb455cb588c913e4788887~mv2.png?id=racing-red',
+                price: '+$3,500'
+              },
+              {
+                name: 'Titanium Gray',
+                specs: '19" | 5x120 | 9.5J',
+                image: 'https://static.wixstatic.com/media/04c535_046a5fff007d4c3db2b450336343c81f~mv2.png?id=titanium-gray',
+                price: '+$2,100'
+              },
+              {
+                name: 'Pearl White',
+                specs: '18" | 5x120 | 9J',
+                image: 'https://static.wixstatic.com/media/04c535_3fda47b2b0904ba0b7963d50108e648e~mv2.png?id=pearl-white',
+                price: '+$1,950'
+              },
+              {
+                name: 'Gunmetal Pro',
+                specs: '20" | 5x120 | 10J',
+                image: 'https://static.wixstatic.com/media/04c535_3ba514a2cd074b358ac34c1b77c5fc1d~mv2.png?id=gunmetal-pro',
+                price: '+$2,800'
+              },
+              {
+                name: 'Matte Black Pro',
+                specs: '21" | 5x120 | 11J',
+                image: 'https://static.wixstatic.com/media/04c535_274e456388d6470aad45ae1564cda175~mv2.png?id=matte-black-pro',
+                price: '+$4,500'
+              },
+              {
+                name: 'Carbon Fiber',
+                specs: '20" | 5x120 | 10.5J',
+                image: 'https://static.wixstatic.com/media/04c535_b588744687ec403e819483094d1433a6~mv2.png?id=carbon-fiber',
+                price: '+$5,200'
+              }
+            ].map((wheel, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className="group relative bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300 hover:bg-white/10"
+              >
+                {/* Image Container */}
+                <div className="relative h-48 overflow-hidden bg-black/50">
+                  <Image
+                    src={wheel.image}
+                    alt={wheel.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                </div>
+
+                {/* Content */}
+                <div className="p-5">
+                  <h3 className="text-lg font-heading font-semibold text-white mb-2 group-hover:text-primary transition-colors">
+                    {wheel.name}
+                  </h3>
+                  <p className="font-paragraph text-xs text-secondary/60 mb-3 tracking-wider">
+                    {wheel.specs}
+                  </p>
+                  <p className="font-paragraph text-sm text-primary font-semibold">
+                    {wheel.price}
+                  </p>
+                </div>
+
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Gallery Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-16 bg-gradient-to-r from-primary/10 to-transparent rounded-xl p-8 border border-primary/20"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h4 className="text-lg font-heading font-semibold text-white mb-2">Premium Quality</h4>
+                <p className="font-paragraph text-sm text-secondary/70">
+                  All alloys are manufactured using high-grade materials and precision engineering for durability and performance.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-lg font-heading font-semibold text-white mb-2">Custom Fitment</h4>
+                <p className="font-paragraph text-sm text-secondary/70">
+                  Available in multiple sizes and bolt patterns to fit virtually any vehicle. Custom offsets available upon request.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-lg font-heading font-semibold text-white mb-2">Expert Installation</h4>
+                <p className="font-paragraph text-sm text-secondary/70">
+                  Professional installation and wheel balancing included with every purchase. Lifetime warranty on defects.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

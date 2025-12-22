@@ -289,7 +289,7 @@ export default function CarDetailPage() {
                           onChange={handleInputChange}
                           required
                           className="bg-white/5 border-white/20 text-white placeholder:text-secondary/30"
-                          placeholder="+1 (555) 123-4567"
+                          placeholder="+91 8766476895"
                         />
                       </div>
 

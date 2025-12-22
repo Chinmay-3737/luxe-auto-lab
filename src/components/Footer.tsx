@@ -44,15 +44,15 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start space-x-3">
                 <Phone size={16} className="text-primary mt-1 flex-shrink-0" />
-                <span className="font-paragraph text-sm text-secondary/70">+1 (555) 123-4567</span>
+                <span className="font-paragraph text-sm text-secondary/70">+91 8766476895</span>
               </li>
               <li className="flex items-start space-x-3">
                 <Mail size={16} className="text-primary mt-1 flex-shrink-0" />
-                <span className="font-paragraph text-sm text-secondary/70">info@elitedrive.com</span>
+                <span className="font-paragraph text-sm text-secondary/70">info@vyronexMotor.com</span>
               </li>
               <li className="flex items-start space-x-3">
                 <MapPin size={16} className="text-primary mt-1 flex-shrink-0" />
-                <span className="font-paragraph text-sm text-secondary/70">123 Luxury Lane, Beverly Hills, CA 90210</span>
+                <span className="font-paragraph text-sm text-secondary/70">Pune, Maharashtra</span>
               </li>
             </ul>
           </div>
