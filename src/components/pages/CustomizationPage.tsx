@@ -280,21 +280,21 @@ export default function CustomizationPage() {
                 description: 'Sophisticated matte black finish with premium durability',
                 finish: 'Matte Black',
                 price: '+$2,500',
-                image: 'https://static.wixstatic.com/media/04c535_a948e600af30481999ba86515d73e75c~mv2.png?originWidth=896&originHeight=448'
+                image: 'https://static.wixstatic.com/media/04c535_0492dea6ea6f41cab971ee324f1dceca~mv2.png?id=matte-finish-alloys'
               },
               {
                 name: 'High-Performance Alloys',
                 description: 'Lightweight forged alloys for enhanced performance',
                 finish: 'Polished Chrome',
                 price: '+$4,200',
-                image: 'https://static.wixstatic.com/media/04c535_a6304e7ea1ee415483debc80c589fbf7~mv2.png?originWidth=896&originHeight=448'
+                image: 'https://static.wixstatic.com/media/04c535_55033865787744b8a41a10395cd771fb~mv2.png?id=high-performance-alloys'
               },
               {
                 name: 'Budget-Friendly Alloys',
                 description: 'Quality alloy wheels at an affordable price point',
                 finish: 'Gunmetal Gray',
                 price: '+$1,200',
-                image: 'https://static.wixstatic.com/media/04c535_963d0b77a899476d80bf856ad24c7bb0~mv2.png?originWidth=896&originHeight=448'
+                image: 'https://static.wixstatic.com/media/04c535_ad16ce0303f0455baa35a425dd8c5a5c~mv2.png?id=budget-friendly-alloys'
               }
             ].map((alloy, index) => (
               <motion.div
@@ -375,49 +375,49 @@ export default function CustomizationPage() {
               {
                 name: 'Classic Black',
                 specs: '18" | 5x120 | 9.5J',
-                image: 'https://static.wixstatic.com/media/04c535_73aa591ed3284e138f65029b4320cfb6~mv2.png?originWidth=1152&originHeight=768',
+                image: 'https://static.wixstatic.com/media/04c535_3ecca8667bd4421498168a50122a01d0~mv2.png?id=classic-black',
                 price: '+$1,800'
               },
               {
                 name: 'Sport Chrome',
                 specs: '19" | 5x120 | 10J',
-                image: 'https://static.wixstatic.com/media/04c535_3598601e9d4b4b119aa5367b64a56c7f~mv2.png?originWidth=1152&originHeight=768',
+                image: 'https://static.wixstatic.com/media/04c535_fd1bebc0e4754186bf93e1a15edc4cbc~mv2.png?id=sport-chrome',
                 price: '+$2,200'
               },
               {
                 name: 'Racing Red',
                 specs: '20" | 5x120 | 10.5J',
-                image: 'https://static.wixstatic.com/media/04c535_6fd23c04e6674bcb8fcb17d55bb54557~mv2.png?originWidth=1152&originHeight=768',
+                image: 'https://static.wixstatic.com/media/04c535_38d6d2f2f3eb455cb588c913e4788887~mv2.png?id=racing-red',
                 price: '+$3,500'
               },
               {
                 name: 'Titanium Gray',
                 specs: '19" | 5x120 | 9.5J',
-                image: 'https://static.wixstatic.com/media/04c535_de8c24aaaedc414087d8e4a79f02133a~mv2.png?originWidth=1152&originHeight=768',
+                image: 'https://static.wixstatic.com/media/04c535_046a5fff007d4c3db2b450336343c81f~mv2.png?id=titanium-gray',
                 price: '+$2,100'
               },
               {
                 name: 'Pearl White',
                 specs: '18" | 5x120 | 9J',
-                image: 'https://static.wixstatic.com/media/04c535_a948e600af30481999ba86515d73e75c~mv2.png?originWidth=896&originHeight=448',
+                image: 'https://static.wixstatic.com/media/04c535_3fda47b2b0904ba0b7963d50108e648e~mv2.png?id=pearl-white',
                 price: '+$1,950'
               },
               {
                 name: 'Gunmetal Pro',
                 specs: '20" | 5x120 | 10J',
-                image: 'https://static.wixstatic.com/media/04c535_a6304e7ea1ee415483debc80c589fbf7~mv2.png?originWidth=896&originHeight=448',
+                image: 'https://static.wixstatic.com/media/04c535_3ba514a2cd074b358ac34c1b77c5fc1d~mv2.png?id=gunmetal-pro',
                 price: '+$2,800'
               },
               {
                 name: 'Matte Black Pro',
                 specs: '21" | 5x120 | 11J',
-                image: 'https://static.wixstatic.com/media/04c535_963d0b77a899476d80bf856ad24c7bb0~mv2.png?originWidth=896&originHeight=448',
+                image: 'https://static.wixstatic.com/media/04c535_274e456388d6470aad45ae1564cda175~mv2.png?id=matte-black-pro',
                 price: '+$4,500'
               },
               {
                 name: 'Carbon Fiber',
                 specs: '20" | 5x120 | 10.5J',
-                image: 'https://static.wixstatic.com/media/04c535_b4e79ab9c667433988738eb88367d2fe~mv2.png?originWidth=1920&originHeight=1024',
+                image: 'https://static.wixstatic.com/media/04c535_b588744687ec403e819483094d1433a6~mv2.png?id=carbon-fiber',
                 price: '+$5,200'
               }
             ].map((wheel, index) => (
