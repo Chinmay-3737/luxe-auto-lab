@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noImplicitAny": false,
+    "strict": false,
+    "allowUnusedLabels": true,
+    "allowUnreachableCode": true,
+    "verbatimModuleSyntax": false,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/integrations/*": ["integrations/*"],
+      "@/integrations": ["integrations"],
+      "@wix/codegen-framework-packages": ["integrations"]
+    }
+  },
+  "include": ["src", "integrations"],
+  "exclude": ["node_modules", "dist"]
+}
